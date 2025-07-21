@@ -33,6 +33,7 @@ describe('SleepLogList', () => {
     render(<SleepLogList />);
     expect(await screen.findAllByRole('listitem')).toHaveLength(2);
     expect(screen.getAllByRole('progressbar')).toHaveLength(7);
+    expect(screen.getAllByText('睡眠時間: 8.0h')).toHaveLength(2);
   });
 
   test('deletes a log', async () => {
