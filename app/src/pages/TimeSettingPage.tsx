@@ -5,6 +5,7 @@ import { useSleepStore } from '../store/useSleepStore';
 export default function TimeSettingPage() {
   const { bedTime, wakeTime, setSchedule, startSleep, stopSleep } =
     useSleepStore();
+  const today = new Date().toISOString().split('T')[0];
   const [sleeping, setSleeping] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const alarmRef = useRef<number | null>(null);
@@ -75,6 +76,10 @@ export default function TimeSettingPage() {
         <label>
           起床時間
           <input type="time" name="wake" defaultValue={wakeTime} />
+        </label>
+        <label>
+          日付
+          <input type="date" name="date" value={today} readOnly />
         </label>
         <button type="submit">保存</button>
       </form>

@@ -5,5 +5,6 @@ export default {
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/src/$1'
   },
+  modulePathIgnorePatterns: ['<rootDir>/functions/', '<rootDir>/sleep-tracker/'],
   testTimeout: 30000
 };
