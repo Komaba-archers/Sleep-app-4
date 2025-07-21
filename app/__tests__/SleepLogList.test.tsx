@@ -19,17 +19,20 @@ describe('SleepLogList', () => {
   ];
 
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-01-03'));
     localStorage.setItem('sleepLogs', JSON.stringify(logs));
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     localStorage.clear();
   });
 
   test('renders logs and bars', async () => {
     render(<SleepLogList />);
     expect(await screen.findAllByRole('listitem')).toHaveLength(2);
-    expect(screen.getAllByRole('progressbar')).toHaveLength(2);
+    expect(screen.getAllByRole('progressbar')).toHaveLength(7);
   });
 
   test('deletes a log', async () => {
