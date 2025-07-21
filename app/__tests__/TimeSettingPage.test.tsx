@@ -8,9 +8,9 @@ beforeEach(() => {
 
 test('updates schedule', () => {
   render(<TimeSettingPage />);
-  fireEvent.change(screen.getByLabelText(/Bed Time/i), { target: { value: '23:00' } });
-  fireEvent.change(screen.getByLabelText(/Wake Time/i), { target: { value: '07:00' } });
-  fireEvent.submit(screen.getByRole('button', { name: /save/i }).closest('form')!);
+  fireEvent.change(screen.getByLabelText(/就寝時間/i), { target: { value: '23:00' } });
+  fireEvent.change(screen.getByLabelText(/起床時間/i), { target: { value: '07:00' } });
+  fireEvent.submit(screen.getByRole('button', { name: /保存/i }).closest('form')!);
   const state = useSleepStore.getState();
   expect(state.bedTime).toBe('23:00');
   expect(state.wakeTime).toBe('07:00');
@@ -18,8 +18,8 @@ test('updates schedule', () => {
 
 test('start and stop sleep', () => {
   render(<TimeSettingPage />);
-  fireEvent.click(screen.getByRole('button', { name: /start sleep/i }));
-  fireEvent.click(screen.getByRole('button', { name: /stop sleep/i }));
+  fireEvent.click(screen.getByRole('button', { name: /睡眠開始/i }));
+  fireEvent.click(screen.getByRole('button', { name: /睡眠停止/i }));
   const { records } = useSleepStore.getState();
   expect(records[0].duration).toBeGreaterThanOrEqual(0);
 });

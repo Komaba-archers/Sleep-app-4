@@ -46,22 +46,22 @@ export default function TimeSettingPage() {
 
   return (
     <div>
-      <h2>Schedule</h2>
+      <h2>スケジュール</h2>
       <form onSubmit={handleSchedule}>
         <label>
-          Bed Time
+          就寝時間
           <input type="time" name="bed" defaultValue={bedTime} />
         </label>
         <label>
-          Wake Time
+          起床時間
           <input type="time" name="wake" defaultValue={wakeTime} />
         </label>
-        <button type="submit">Save</button>
+        <button type="submit">保存</button>
       </form>
       {sleeping ? (
-        <button onClick={handleStop}>Stop Sleep</button>
+        <button onClick={handleStop}>睡眠停止</button>
       ) : (
-        <button onClick={handleStart}>Start Sleep</button>
+        <button onClick={handleStart}>睡眠開始</button>
       )}
     </div>
   );

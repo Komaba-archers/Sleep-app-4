@@ -24,20 +24,20 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h2>Profile</h2>
+      <h2>プロフィール</h2>
       {error && <p role="alert">{error}</p>}
       <input
-        aria-label="Name"
+        aria-label="名前"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <input
-        aria-label="Icon URL"
+        aria-label="アイコンURL"
         value={icon}
         onChange={(e) => setIcon(e.target.value)}
       />
       <button disabled={saving} onClick={handleSave}>
-        Save
+        保存
       </button>
     </div>
   );
