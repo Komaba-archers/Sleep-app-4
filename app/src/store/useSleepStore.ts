@@ -63,8 +63,10 @@ export const useSleepStore = create<SleepState>((set) => ({
           const duration =
             r.actualBed && time
               ?
-                  (new Date(`${today}T${time}`).getTime() -
-                    new Date(`${today}T${r.actualBed}`).getTime()) /
+                  Math.abs(
+                    new Date(`${today}T${time}`).getTime() -
+                      new Date(`${today}T${r.actualBed}`).getTime()
+                  ) /
                   3600000
               : r.duration;
           const onSchedule =
