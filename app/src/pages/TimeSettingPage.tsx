@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { FormEvent } from 'react';
 import { useSleepStore } from '../store/useSleepStore';
 
@@ -6,6 +6,7 @@ export default function TimeSettingPage() {
   const { bedTime, wakeTime, setSchedule, startSleep, stopSleep } =
     useSleepStore();
   const [sleeping, setSleeping] = useState(false);
+  const alarmRef = useRef<number | null>(null);
 
   const handleSchedule = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,11 +18,29 @@ export default function TimeSettingPage() {
 
   const handleStart = () => {
     startSleep(new Date().toTimeString().slice(0, 5));
+    const now = new Date();
+    const [wakeH, wakeM] = wakeTime.split(':').map(Number);
+    const wake = new Date();
+    wake.setHours(wakeH, wakeM, 0, 0);
+    if (wake <= now) {
+      wake.setDate(wake.getDate() + 1);
+    }
+    const timeout = wake.getTime() - now.getTime();
+    alarmRef.current = window.setTimeout(() => {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      osc.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 1);
+    }, timeout);
     setSleeping(true);
   };
 
   const handleStop = () => {
     stopSleep(new Date().toTimeString().slice(0, 5));
+    if (alarmRef.current) {
+      clearTimeout(alarmRef.current);
+    }
     setSleeping(false);
   };
 
