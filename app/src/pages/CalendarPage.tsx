@@ -16,7 +16,7 @@ export default function CalendarPage() {
           {days.map((d) => {
             const dateStr = d.toISOString().split('T')[0];
             const rec = records.find((r) => r.date === dateStr);
-            const star = rec && rec.duration && rec.duration >= 0 ? '⭐' : '';
+            const star = rec && rec.onSchedule ? '⭐' : '';
             return (
               <td key={dateStr} style={{ padding: '4px', border: '1px solid gray' }}>
                 {d.getDate()}

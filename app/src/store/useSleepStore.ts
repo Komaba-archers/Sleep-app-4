@@ -1,5 +1,12 @@
 import { create } from 'zustand';
 
+const TOLERANCE_MINUTES = 5;
+
+const toMinutes = (t: string) => {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+};
+
 interface SleepRecord {
   date: string;
   scheduledBed: string;
@@ -7,6 +14,7 @@ interface SleepRecord {
   actualBed?: string;
   actualWake?: string;
   duration?: number;
+  onSchedule?: boolean;
 }
 
 interface SleepState {
@@ -50,20 +58,28 @@ export const useSleepStore = create<SleepState>((set) => ({
     set((state) => {
       const today = new Date().toISOString().split('T')[0];
       return {
-        records: state.records.map((r) =>
-          r.date === today
-            ? {
-                ...r,
-                actualWake: time,
-                duration:
-                  r.actualBed && time
-                    ? (new Date(`${today}T${time}` as string).getTime() -
-                        new Date(`${today}T${r.actualBed}` as string).getTime()) /
-                      3600000
-                    : r.duration
-              }
-            : r
-        )
+        records: state.records.map((r) => {
+          if (r.date !== today) return r;
+          const duration =
+            r.actualBed && time
+              ?
+                  (new Date(`${today}T${time}`).getTime() -
+                    new Date(`${today}T${r.actualBed}`).getTime()) /
+                  3600000
+              : r.duration;
+          const onSchedule =
+            r.actualBed !== undefined &&
+            Math.abs(toMinutes(r.actualBed) - toMinutes(r.scheduledBed)) <=
+              TOLERANCE_MINUTES &&
+            Math.abs(toMinutes(time) - toMinutes(r.scheduledWake)) <=
+              TOLERANCE_MINUTES;
+          return {
+            ...r,
+            actualWake: time,
+            duration,
+            onSchedule
+          };
+        })
       };
     })
 }));
