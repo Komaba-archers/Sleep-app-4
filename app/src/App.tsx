@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import TimeSettingPage from './pages/TimeSettingPage';
 import CalendarPage from './pages/CalendarPage';
 import WeeklyGraphPage from './pages/WeeklyGraphPage';
+import SleepLogsPage from './pages/SleepLogsPage';
 import ProfilePage from './pages/ProfilePage';
 
 function ErrorFallback() {
@@ -16,6 +17,7 @@ export default function App() {
         <Link to="/">スケジュール</Link> |{' '}
         <Link to="/calendar">カレンダー</Link> |{' '}
         <Link to="/weekly">グラフ</Link> |{' '}
+        <Link to="/logs">ログ</Link> |{' '}
         <Link to="/profile">プロフィール</Link>
       </nav>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -23,6 +25,7 @@ export default function App() {
           <Route path="/" element={<TimeSettingPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/weekly" element={<WeeklyGraphPage />} />
+          <Route path="/logs" element={<SleepLogsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </ErrorBoundary>
