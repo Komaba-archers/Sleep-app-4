@@ -24,16 +24,21 @@ const SleepLogList: React.FC = () => {
       <div className="list-container">
         <h2>睡眠ログ一覧</h2>
         <ul>
-          {logs.map((log) => (
-            <li key={log.id} className="list-item">
-              <div>
-                {new Date(log.sleepTime).toLocaleString()} -{' '}
-                {new Date(log.wakeTime).toLocaleString()}
-              </div>
-              {log.memo && <div>メモ: {log.memo}</div>}
-              <button onClick={() => handleDelete(log.id)}>削除</button>
-            </li>
-          ))}
+          {logs.map((log) => {
+            const duration =
+              Math.max(0, (log.wakeTime - log.sleepTime) / 3600000);
+            return (
+              <li key={log.id} className="list-item">
+                <div>
+                  {new Date(log.sleepTime).toLocaleString()} -{' '}
+                  {new Date(log.wakeTime).toLocaleString()}
+                </div>
+                <div>睡眠時間: {duration.toFixed(1)}h</div>
+                {log.memo && <div>メモ: {log.memo}</div>}
+                <button onClick={() => handleDelete(log.id)}>削除</button>
+              </li>
+            );
+          })}
         </ul>
         <SleepChart logs={logs} />
       </div>
