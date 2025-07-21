@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useSleepStore } from '../store/useSleepStore';
 
@@ -6,7 +6,20 @@ export default function TimeSettingPage() {
   const { bedTime, wakeTime, setSchedule, startSleep, stopSleep } =
     useSleepStore();
   const [sleeping, setSleeping] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
   const alarmRef = useRef<number | null>(null);
+  const intervalRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (alarmRef.current) {
+        clearTimeout(alarmRef.current);
+      }
+    };
+  }, []);
 
   const handleSchedule = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +31,10 @@ export default function TimeSettingPage() {
 
   const handleStart = () => {
     startSleep(new Date().toTimeString().slice(0, 5));
+    setElapsed(0);
+    intervalRef.current = window.setInterval(() => {
+      setElapsed((e) => e + 1);
+    }, 1000);
     const now = new Date();
     const [wakeH, wakeM] = wakeTime.split(':').map(Number);
     const wake = new Date();
@@ -41,6 +58,9 @@ export default function TimeSettingPage() {
     if (alarmRef.current) {
       clearTimeout(alarmRef.current);
     }
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
     setSleeping(false);
   };
 
@@ -58,6 +78,11 @@ export default function TimeSettingPage() {
         </label>
         <button type="submit">保存</button>
       </form>
+      {sleeping && (
+        <p aria-label="経過時間">
+          {new Date(elapsed * 1000).toISOString().slice(11, 19)}
+        </p>
+      )}
       {sleeping ? (
         <button onClick={handleStop}>睡眠停止</button>
       ) : (
