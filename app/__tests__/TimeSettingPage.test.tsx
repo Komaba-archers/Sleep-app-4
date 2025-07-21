@@ -7,6 +7,12 @@ beforeEach(() => {
   useSleepStore.setState({ bedTime: '22:00', wakeTime: '06:00', records: [] });
 });
 
+test('displays today date', () => {
+  render(<TimeSettingPage />);
+  const today = new Date().toISOString().split('T')[0];
+  expect(screen.getByLabelText(/日付/i)).toHaveValue(today);
+});
+
 test('updates schedule', () => {
   render(<TimeSettingPage />);
   fireEvent.change(screen.getByLabelText(/就寝時間/i), { target: { value: '23:00' } });
