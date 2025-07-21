@@ -1,5 +1,5 @@
 import React from 'react';
-import { SleepLog } from '../types/SleepLog';
+import type { SleepLog } from '../types/SleepLog';
 
 interface Props {
   logs: SleepLog[];

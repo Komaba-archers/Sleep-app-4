@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SleepLog } from '../types/SleepLog';
+import type { SleepLog } from '../types/SleepLog';
 import SleepChart from './SleepChart';
 
 const STORAGE_KEY = 'sleepLogs';

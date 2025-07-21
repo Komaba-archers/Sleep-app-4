@@ -1,7 +1,7 @@
 /// <reference types="@testing-library/jest-dom" />
 import { render, screen, fireEvent } from '@testing-library/react';
 import SleepLogList from '../src/components/SleepLogList';
-import { SleepLog } from '../src/types/SleepLog';
+import type { SleepLog } from '../src/types/SleepLog';
 
 describe('SleepLogList', () => {
   const logs: SleepLog[] = [
