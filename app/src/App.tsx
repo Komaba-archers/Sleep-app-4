@@ -5,15 +5,16 @@ import CalendarPage from './pages/CalendarPage';
 import ProfilePage from './pages/ProfilePage';
 
 function ErrorFallback() {
-  return <p role="alert">Something went wrong.</p>;
+  return <p role="alert">エラーが発生しました。</p>;
 }
 
 export default function App() {
   return (
     <BrowserRouter>
       <nav>
-        <Link to="/">Schedule</Link> | <Link to="/calendar">Calendar</Link> |{' '}
-        <Link to="/profile">Profile</Link>
+        <Link to="/">スケジュール</Link> |{' '}
+        <Link to="/calendar">カレンダー</Link> |{' '}
+        <Link to="/profile">プロフィール</Link>
       </nav>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Routes>
